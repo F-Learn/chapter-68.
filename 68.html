@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 68 · Disaster Nursing</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', 'Segoe UI', Roboto, system-ui, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(145deg, #7a5c3a, #594326);
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 100vw;
+            height: 100vh;
+            background: #f9f2e9;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 15px 40px rgba(100, 60, 20, 0.5);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #b88b4b, #8d6634);
+            color: white;
+            padding: 20px 30px;
+            flex-shrink: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 90px;
+            border-bottom: 5px solid #f5d9a4;
+            box-shadow: 0 8px 15px #5b411f;
+        }
+
+        .header-content {
+            flex: 1;
+        }
+
+        .header h1 {
+            font-size: 1.9rem;
+            margin: 0;
+            font-weight: 600;
+            letter-spacing: 0.2px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header h1::before {
+            content: "🚨";
+            font-size: 2.3rem;
+            filter: drop-shadow(0 0 4px #ffe0b0);
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-top: 5px;
+            font-weight: 400;
+        }
+
+        .counter {
+            background: #7f6039;
+            padding: 10px 28px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 1.3rem;
+            min-width: 110px;
+            text-align: center;
+            backdrop-filter: blur(3px);
+            border: 2px solid #fadcb0;
+            color: #fff8e7;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 10px;
+            background: #eddec9;
+            flex-shrink: 0;
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, #cf9f5c, #ac7d40);
+            height: 100%;
+            width: 0%;
+            transition: width 0.4s ease;
+            box-shadow: 0 0 12px #dcac67;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            padding: 30px;
+            background: #f7ebdb;
+        }
+
+        .question-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            background: white;
+            border-radius: 32px;
+            padding: 35px;
+            box-shadow: 0 20px 40px rgba(150, 90, 40, 0.2);
+            border: 2px solid #f0dbba;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+
+        .question-header {
+            display: flex;
+            gap: 25px;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+
+        .question-number {
+            background: linear-gradient(145deg, #b58647, #8f6534);
+            color: white;
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.9rem;
+            font-weight: 800;
+            flex-shrink: 0;
+            border: 3px solid #fbe0b9;
+            box-shadow: 0 7px 0 #6b4b25;
+        }
+
+        .question-text {
+            font-size: 1.4rem;
+            line-height: 1.6;
+            color: #624424;
+            flex-grow: 1;
+            font-weight: 600;
+            padding-right: 15px;
+        }
+
+        .options-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .option {
+            padding: 20px 22px;
+            border: 3px solid #f9e5cc;
+            border-radius: 22px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            font-size: 1.15rem;
+            box-shadow: 0 5px 12px rgba(130, 70, 30, 0.08);
+        }
+
+        .option:hover {
+            background: #fff9ef;
+            border-color: #d09f60;
+            transform: translateY(-3px);
+            box-shadow: 0 18px 25px rgba(180, 100, 40, 0.15);
+        }
+
+        .option-letter {
+            background: linear-gradient(145deg, #b17e41, #8a5d2b);
+            color: white;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            flex-shrink: 0;
+            font-size: 1.3rem;
+            border: 2px solid #fce3c2;
+        }
+
+        .option.correct {
+            background: linear-gradient(145deg, #c6e6d4, #b2dec6);
+            border-color: #2b7a56;
+            color: #1b4f32;
+        }
+        .option.correct .option-letter {
+            background: #1f7a51;
+            border-color: #b7f0d4;
+        }
+
+        .option.incorrect {
+            background: linear-gradient(145deg, #fad7d2, #fecbc3);
+            border-color: #b14242;
+            color: #631e1e;
+        }
+        .option.incorrect .option-letter {
+            background: #b84545;
+            border-color: #f5b7b7;
+        }
+
+        .feedback-area {
+            flex-shrink: 0;
+        }
+
+        .feedback {
+            padding: 25px;
+            border-radius: 20px;
+            display: none;
+            align-items: center;
+            gap: 20px;
+            font-weight: 700;
+            font-size: 1.25rem;
+            animation: slideIn 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .feedback.correct {
+            background: linear-gradient(145deg, #daf0da, #c8e6c8);
+            border: 3px solid #2e7d5a;
+            color: #1b4d2b;
+            display: flex;
+        }
+
+        .feedback.incorrect {
+            background: linear-gradient(145deg, #ffdedb, #fecbc7);
+            border: 3px solid #bb3b3b;
+            color: #632020;
+            display: flex;
+        }
+
+        .feedback-icon {
+            font-size: 2rem;
+        }
+
+        .rationale {
+            background: linear-gradient(145deg, #fdf2e3, #fbe9d5);
+            border: 3px solid #b68045;
+            border-radius: 20px;
+            padding: 25px;
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+        .rationale.show {
+            display: block;
+        }
+        .rationale h4 {
+            color: #9f6c34;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.3rem;
+        }
+        .rationale p {
+            color: #704e28;
+            line-height: 1.7;
+            font-size: 1.1rem;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 35px;
+            background: #efdecb;
+            border-top: 3px solid #e2caaa;
+            flex-shrink: 0;
+            height: 85px;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 16px 42px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.1rem;
+            white-space: nowrap;
+            box-shadow: 0 6px 0 #735430;
+        }
+
+        .btn-primary {
+            background: linear-gradient(145deg, #b08247, #896234);
+            color: white;
+            border: 2px solid #faddb5;
+        }
+        .btn-primary:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 0 #543f22, 0 8px 20px #b0854b;
+        }
+        .btn-secondary {
+            background: linear-gradient(145deg, #976f40, #74522e);
+            color: white;
+            border: 2px solid #f7dcba;
+        }
+        .btn-secondary:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 0 #45321d, 0 8px 20px #9d7546;
+        }
+        .btn-cancel {
+            background: linear-gradient(145deg, #c27f7f, #aa4a4a);
+            color: white;
+            display: none;
+            border: 2px solid #f3baba;
+        }
+        .btn-cancel:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 0 #632d2d;
+        }
+        .btn-cancel.show {
+            display: flex;
+        }
+
+        .btn:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: 0 4px 0 #61512e;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 700px) {
+            .question-text { font-size: 1.2rem; }
+            .option { font-size: 1rem; padding: 15px; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="header-content">
+            <h1>Chapter 68: Disaster Nursing</h1>
+            <div class="subtitle">40 questions · triage · PPE · chemical/radiation · blast injury</div>
+        </div>
+        <div class="counter" id="counter">1/40</div>
+    </div>
+    
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+    
+    <div class="main-content">
+        <div class="question-area">
+            <div class="question-header">
+                <div class="question-number" id="questionNumber">1</div>
+                <div class="question-text" id="question"></div>
+            </div>
+            
+            <div class="options-container" id="options"></div>
+        </div>
+        
+        <div class="feedback-area">
+            <div class="feedback" id="feedback">
+                <div class="feedback-icon" id="feedbackIcon"></div>
+                <div id="feedbackText"></div>
+            </div>
+            <div class="rationale" id="rationale">
+                <h4>🚨 DISASTER RATIONALE:</h4>
+                <p id="rationaleText"></p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="navigation">
+        <button class="btn btn-secondary" id="prevBtn" onclick="previousCard()">⬅️ PREV</button>
+        <div class="nav-buttons">
+            <button class="btn btn-cancel" id="cancelBtn" onclick="cancelSelection()">✖️ CANCEL</button>
+            <button class="btn btn-primary" id="nextBtn" onclick="nextCard()">NEXT ➡️</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ----- Chapter 68 exact questions (40 items) -----
+    const questions = [
+        { //1
+            id: 1,
+            question: "The emergency department (ED) received news of a train derailment locally and the number of clients injured is reported between 50 and 100. The hospital has determined that it can accommodate 50 clients and still remain self-sufficient. What criteria is the hospital using to project the number of clients it can support?",
+            options: [
+                "A. The understanding that the institution can rely on outside services after 3 days",
+                "B. Based on the emergency operations plan that incorporates assistance from the Red Cross",
+                "C. Decided by the institution's ability to sustain core services for at least 96 hours",
+                "D. Based on the hospital's incident command system that updates the hospital on the severity of injuries"
+            ],
+            correct: 2, // C
+            rationale: "Goal: self-sufficient for at least 96 hours (ideally 7 days). (PTS:1 REF:p.2221)"
+        },
+        { //2
+            id: 2,
+            question: "A workplace explosion has left a 40-year-old client with full thickness burns over 75% of the body. Despite these injuries, the client is conscious. How would this person be triaged?",
+            options: [
+                "A. Green",
+                "B. Yellow",
+                "C. Red",
+                "D. Black"
+            ],
+            correct: 3, // D
+            rationale: "Black (expectant) = unlikely to survive, despite consciousness. (PTS:1 REF:p.2223)"
+        },
+        { //3
+            id: 3,
+            question: "A client has been witness to a disaster involving a large number of injuries. The client appears upset, but states feeling capable of dealing with the emotions involved. What is the nurse's most appropriate intervention?",
+            options: [
+                "A. Educate the client about the potential harm in denying their emotions.",
+                "B. Refer the client to social work or spiritual care.",
+                "C. Encourage the client to take a leave of absence from their job to facilitate emotional healing.",
+                "D. Encourage the client to return to normal social roles when appropriate."
+            ],
+            correct: 3, // D
+            rationale: "Encourage return to normal roles; not necessarily denial. (PTS:1 REF:p.2226)"
+        },
+        { //4
+            id: 4,
+            question: "A nurse is caring for clients exposed to a terrorist attack involving chemicals. The nurse has been advised that personal protective equipment must be worn in order to give the highest level of respiratory protection with a lesser level of skin and eye protection. What level protection is this considered?",
+            options: [
+                "A. Level A",
+                "B. Level B",
+                "C. Level C",
+                "D. Level D"
+            ],
+            correct: 1, // B
+            rationale: "Level B: highest respiratory, lesser skin/eye. (PTS:1 REF:p.2228)"
+        },
+        { //5
+            id: 5,
+            question: "A client who has been exposed to anthrax is being treated in the local hospital. The nurse should prioritize what health assessments?",
+            options: [
+                "A. Integumentary assessment",
+                "B. Assessment for signs of hemorrhage",
+                "C. Neurologic assessment",
+                "D. Assessment of respiratory status"
+            ],
+            correct: 3, // D
+            rationale: "Inhalation anthrax: severe respiratory distress. (PTS:1 REF:p.2234)"
+        },
+        { //6
+            id: 6,
+            question: "When assessing clients who are victims of a chemical agent attack, the nurse is aware that assessment findings vary based on the type of chemical agent. The chemical sulfur mustard is an example of what type of chemical warfare agent?",
+            options: [
+                "A. Nerve agent",
+                "B. Blood agent",
+                "C. Pulmonary agent",
+                "D. Vesicant"
+            ],
+            correct: 3, // D
+            rationale: "Sulfur mustard = vesicant (blistering agent). (PTS:1 REF:p.2235)"
+        },
+        { //7
+            id: 7,
+            question: "A major earthquake has occurred within the vicinity of the local hospital. The nursing supervisor working the night shift at the hospital receives information that the hospital disaster plan will be activated. The supervisor will need to work with what organization responsible for coordinating interagency relief assistance?",
+            options: [
+                "A. Office of Emergency Management",
+                "B. Incident Command System",
+                "C. Centers for Disease Control and Prevention (CDC)",
+                "D. American Red Cross"
+            ],
+            correct: 0, // A
+            rationale: "Office of Emergency Management coordinates interagency relief. (PTS:1 REF:p.2220)"
+        },
+        { //8
+            id: 8,
+            question: "While developing an emergency operations plan (EOP), the committee is discussing the components of the EOP. During the post-incident response of an emergency operations plan, what activity should take place?",
+            options: [
+                "A. Deciding when the facility will go from disaster response to daily activities",
+                "B. Conducting practice drills for the community and facility",
+                "C. Conducting a critique and debriefing for all involved in the incident",
+                "D. Replacing the resources in the facility"
+            ],
+            correct: 2, // C
+            rationale: "Post-incident: critique and debriefing. (PTS:1 REF:p.2222)"
+        },
+        { //9
+            id: 9,
+            question: "The announcement is made that the facility may return to normal functioning after a local disaster. In the emergency operations plan, what is this referred to as?",
+            options: [
+                "A. Demobilization response",
+                "B. Post-incident response",
+                "C. Crisis diffusion",
+                "D. Reversion"
+            ],
+            correct: 0, // A
+            rationale: "Demobilization = return to normal daily functioning. (PTS:1 REF:p.2222)"
+        },
+        { //10
+            id: 10,
+            question: "A group of disaster survivors is working with the critical incident stress management (CISM) team. Members of this team should be guided by what goal?",
+            options: [
+                "A. Determining whether the incident was managed effectively",
+                "B. Educating survivors on potential coping strategies for future disasters",
+                "C. Providing individuals with education about recognizing stress reactions",
+                "D. Determining if individuals responded appropriately during the incident"
+            ],
+            correct: 2, // C
+            rationale: "CISM defusing: recognize stress reactions and how to handle. (PTS:1 REF:p.2225)"
+        },
+        { //11
+            id: 11,
+            question: "Level C personal protective equipment has been deemed necessary in the response to an unknown substance. The nurse is aware that what piece of equipment or clothing will be included?",
+            options: [
+                "A. A self-contained breathing apparatus",
+                "B. A vapor-tight, chemical-resistant suit",
+                "C. A uniform only",
+                "D. An air-purified respirator"
+            ],
+            correct: 3, // D
+            rationale: "Level C: air-purified respirator, chemical-resistant coverall. (PTS:1 REF:p.2228)"
+        },
+        { //12
+            id: 12,
+            question: "A client with smoke inhalation arrives at the emergency department (ED) after involvement in a house fire and is lethargic with tachypnea and tachycardia. The nurse anticipates what specific intervention(s) for this client? Select all that apply.",
+            options: [
+                "A. Intubation and ventilator support.",
+                "B. Treatment in a hyperbaric chamber.",
+                "C. Hydroxocobalamin medication administration",
+                "D. Receive nitrate pearls through the ventilator.",
+                "E. Pralidoxime medication administration."
+            ],
+            correct: [0,1,2], // A, B, C
+            rationale: "Cyanide exposure: intubate, hyperbaric, hydroxocobalamin. Nitrates contraindicated with smoke inhalation. (PTS:1 REF:p.2237)"
+        },
+        { //13
+            id: 13,
+            question: "A nurse takes a shift report and will be caring for a client who has been exposed to anthrax by inhalation. What precautions does the nurse know must be put in place when providing care for this client?",
+            options: [
+                "A. Standard precautions",
+                "B. Airborne precautions",
+                "C. Droplet precautions",
+                "D. Contact precautions"
+            ],
+            correct: 0, // A
+            rationale: "Anthrax not contagious person-to-person; standard precautions. (PTS:1 REF:p.2234)"
+        },
+        { //14
+            id: 14,
+            question: "A military nurse is treating a soldier after an unexploded ordnance (UXO) was purposely detonated for disposal. The blast radius was larger than anticipated and debris injured the soldier. The nurse anticipates what phase of blast injury occurred to this soldier?",
+            options: [
+                "A. Primary",
+                "B. Quaternary",
+                "C. Secondary",
+                "D. Tertiary"
+            ],
+            correct: 2, // C
+            rationale: "Secondary blast injuries = debris/shrapnel. (PTS:1 REF:p.2231)"
+        },
+        { //15
+            id: 15,
+            question: "A client is being treated in the ED following a terrorist attack. The client is experiencing visual disturbances, nausea, vomiting, and behavioral changes. The nurse suspects this client has been exposed to what chemical agent?",
+            options: [
+                "A. Nerve agent",
+                "B. Pulmonary agent",
+                "C. Vesicant",
+                "D. Blood agent"
+            ],
+            correct: 0, // A
+            rationale: "Nerve agent: visual disturbances, nausea, vomiting, behavioral changes. (PTS:1 REF:p.2236)"
+        },
+        { //16
+            id: 16,
+            question: "A client is admitted to the ED who has been exposed to a nerve agent. The nurse should anticipate the STAT administration of what drug?",
+            options: [
+                "A. Amyl nitrate",
+                "B. Dimercaprol",
+                "C. Erythromycin",
+                "D. Atropine"
+            ],
+            correct: 3, // D
+            rationale: "Atropine for nerve agent exposure. (PTS:1 REF:p.2236)"
+        },
+        { //17
+            id: 17,
+            question: "A client was exposed to a dose of more than 5,000 rads of radiation during a terrorist attack. The client's skin will eventually show what manifestation?",
+            options: [
+                "A. Erythema",
+                "B. Ecchymosis",
+                "C. Desquamation",
+                "D. Necrosis"
+            ],
+            correct: 3, // D
+            rationale: ">5000 rads → skin necrosis. (PTS:1 REF:p.2239)"
+        },
+        { //18
+            id: 18,
+            question: "There has been a radiation-based terrorist attack and a client is experiencing vomiting, diarrhea, and shock after the attack. How will the client's likelihood of survival be characterized?",
+            options: [
+                "A. Probable",
+                "B. Possible",
+                "C. Improbable",
+                "D. Extended"
+            ],
+            correct: 2, // C
+            rationale: "Vomiting, diarrhea, shock after radiation → improbable survival (>800 rads). (PTS:1 REF:p.2239)"
+        },
+        { //19
+            id: 19,
+            question: "A 44-year-old client has been exposed to severe amount of radiation after a leak in a reactor plant. When planning this client's care, the nurse should implement what action?",
+            options: [
+                "A. The client should be scrubbed with alcohol and iodine.",
+                "B. The client should be carefully protected from infection.",
+                "C. The client's immunization status should be promptly assessed.",
+                "D. The client's body hair should be removed to prevent secondary contamination."
+            ],
+            correct: 1, // B
+            rationale: "Hematopoietic damage → infection risk → protect from infection. (PTS:1 REF:p.2239)"
+        },
+        { //20
+            id: 20,
+            question: "The nurse is coordinating the care of victims who arrive at the ED after a radiation leak at a nearby nuclear plant. What would be the first intervention initiated when victims arrive at the hospital?",
+            options: [
+                "A. Administer prophylactic antibiotics.",
+                "B. Survey the victims using a radiation survey meter.",
+                "C. Irrigate victims' open wounds.",
+                "D. Perform soap and water decontamination."
+            ],
+            correct: 1, // B
+            rationale: "First: survey with radiation meter before decontamination. (PTS:1 REF:p.2238)"
+        },
+        { //21
+            id: 21,
+            question: "An industrial site has experienced a radiation leak and workers who have been potentially affected are en route to the hospital. To minimize the risks of contaminating the hospital, managers should perform what action?",
+            options: [
+                "A. Place all potential victims on reverse isolation.",
+                "B. Establish a triage outside the hospital.",
+                "C. Have hospital staff put on personal protective equipment.",
+                "D. Place hospital staff on abbreviated shifts of no more than 4 hours."
+            ],
+            correct: 1, // B
+            rationale: "Triage outside prevents facility contamination. (PTS:1 REF:p.2238)"
+        },
+        { //22
+            id: 22,
+            question: "After radiation exposure, a client has been assessed and determined to be a possible survivor. Following the resolution of the client's initial symptoms, the care team should anticipate what event?",
+            options: [
+                "A. A return to full health",
+                "B. Internal bleeding",
+                "C. A latent phase",
+                "D. Massive tissue necrosis"
+            ],
+            correct: 2, // C
+            rationale: "After prodrome → latent phase (possible survivor). (PTS:1 REF:p.2239)"
+        },
+        { //23
+            id: 23,
+            question: "A hospital's emergency operations plan has been enacted following an industrial accident. While one nurse performs the initial triage, what should other emergency medical services personnel do?",
+            options: [
+                "A. Perform life-saving measures.",
+                "B. Classify clients according to acuity.",
+                "C. Provide health promotion education.",
+                "D. Modify the emergency operations plan."
+            ],
+            correct: 0, // A
+            rationale: "One triages, others do life-saving measures. (PTS:1 REF:p.2222)"
+        },
+        { //24
+            id: 24,
+            question: "A nurse is triaging clients after a chemical leak at a nearby fertilizer factory. What is the guiding principle of this activity?",
+            options: [
+                "A. Assigning a high priority to the most critical injuries",
+                "B. Doing the greatest good for the greatest number of people",
+                "C. Allocating resources to the youngest and most critical",
+                "D. Allocating resources on a first-come, first-served basis"
+            ],
+            correct: 1, // B
+            rationale: "Disaster triage: greatest good for greatest number. (PTS:1 REF:p.2222)"
+        },
+        { //25
+            id: 25,
+            question: "A nurse has been called for duty during a response to a natural disaster. In this context of care, the nurse should expect to do which of the following?",
+            options: [
+                "A. Practice outside of the nurse's normal area of clinical expertise.",
+                "B. Perform interventions that are not based on assessment data.",
+                "C. Prioritize psychosocial needs over physiologic needs.",
+                "D. Prioritize the interests of older adults over younger clients."
+            ],
+            correct: 0, // A
+            rationale: "May practice outside usual area, but still use assessment. (PTS:1 REF:p.2224)"
+        },
+        { //26
+            id: 26,
+            question: "A nurse is participating in the planning of a hospital's emergency operations plan. The nurse is aware of the potential for ethical dilemmas during a disaster or other emergency. Ethical dilemmas in these contexts are best addressed by which of the following actions?",
+            options: [
+                "A. Having an ethical framework in place prior to an emergency",
+                "B. Allowing staff to provide care anonymously during an emergency",
+                "C. Assuring staff that they are not legally accountable for care provided during an emergency",
+                "D. Teaching staff that principles of ethics do not apply in an emergency situation"
+            ],
+            correct: 0, // A
+            rationale: "Plan ahead with ethical framework; accountability always. (PTS:1 REF:p.2226)"
+        },
+        { //27
+            id: 27,
+            question: "A nurse is undergoing debriefing with the critical incident stress management (CISM) team after participating in the response to a disaster. During this process, the nurse will do which of the following?",
+            options: [
+                "A. Evaluate the care that he or she provided during the disaster.",
+                "B. Discuss the nurse's own emotional responses to the disaster.",
+                "C. Explore the ethics of the care provided during the disaster.",
+                "D. Provide suggestions for improving the emergency operations plan."
+            ],
+            correct: 1, // B
+            rationale: "Debriefing: emotional reactions, symptoms, psychological impact. (PTS:1 REF:p.2226)"
+        },
+        { //28
+            id: 28,
+            question: "A client survived a workplace accident that claimed the lives of many of the client's colleagues several months ago. The client has recently sought care for the treatment of depression. How should the nurse best understand the client's current mental health problem?",
+            options: [
+                "A. The client is experiencing a common response following a disaster.",
+                "B. The client fails to appreciate the fact that the client survived the disaster.",
+                "C. The client most likely feels guilty about actions the client took during the disaster.",
+                "D. The client's depression most likely predated the disaster."
+            ],
+            correct: 0, // A
+            rationale: "Depression common post-disaster. (PTS:1 REF:p.2226)"
+        },
+        { //29
+            id: 29,
+            question: "The nurse has been notified that the ED is expecting terrorist attack victims and that level D personal protective equipment (PPE) is appropriate. What does level D PPE include?",
+            options: [
+                "A. A chemical-resistant coverall with splash hood, chemical-resistant gloves, and boots",
+                "B. A self-contained breathing apparatus (SCBA) and a fully encapsulating, vapor-tight, chemical-resistant suit with chemical-resistant gloves and boots",
+                "C. The SCBA and a chemical-resistant suit, but the suit is not vapor tight",
+                "D. The nurse's typical work uniform"
+            ],
+            correct: 3, // D
+            rationale: "Level D = typical work uniform. (PTS:1 REF:p.2228)"
+        },
+        { //30
+            id: 30,
+            question: "The nurse is preparing to admit clients who have been the victim of a blast injury. The nurse should expect to treat a large number of clients who have experienced what type of injury?",
+            options: [
+                "A. Chemical burns",
+                "B. Spinal cord injury",
+                "C. Meningeal tears",
+                "D. Tympanic membrane rupture"
+            ],
+            correct: 3, // D
+            rationale: "Most frequent blast injury: tympanic membrane rupture. (PTS:1 REF:p.2231)"
+        },
+        { //31
+            id: 31,
+            question: "A nurse who is a member of the local disaster response team is learning about blast injuries. The nurse should plan for what event that occurs in the tertiary phase of the blast injury?",
+            options: [
+                "A. Victims' preexisting medical conditions are exacerbated.",
+                "B. Victims are thrown by the pressure wave.",
+                "C. Victims experience burns from the blast.",
+                "D. Victims suffer injuries caused by debris or shrapnel from the blast."
+            ],
+            correct: 1, // B
+            rationale: "Tertiary phase: victims thrown by pressure wave. (PTS:1 REF:p.2231)"
+        },
+        { //32
+            id: 32,
+            question: "A client suffering from blast lung has been admitted to the hospital and is exhibiting signs and symptoms of an air embolus. What is the nurse's most appropriate action?",
+            options: [
+                "A. Place the client in the Trendelenburg position.",
+                "B. Assess the client's airway and begin chest compressions.",
+                "C. Position the client in the prone, left lateral position.",
+                "D. Encourage the client to perform deep breathing and coughing exercises."
+            ],
+            correct: 2, // C
+            rationale: "Air embolus: prone left lateral, hyperbaric. (PTS:1 REF:p.2231)"
+        },
+        { //33
+            id: 33,
+            question: "A client has been admitted to the medical unit with signs and symptoms that are suggestive of anthrax infection. The nurse should anticipate what intervention?",
+            options: [
+                "A. Administration of acyclovir",
+                "B. Hematopoietic stem cell transplantation (HSCT)",
+                "C. Administration of penicillin",
+                "D. Hemodialysis"
+            ],
+            correct: 2, // C
+            rationale: "Anthrax treated with penicillin. (PTS:1 REF:p.2234)"
+        },
+        { //34
+            id: 34,
+            question: "The ED staff has been notified of the imminent arrival of a client who has been exposed to chlorine. The nurse should anticipate the need to address what nursing diagnosis?",
+            options: [
+                "A. Impaired gas exchange",
+                "B. Decreased cardiac output",
+                "C. Chronic pain",
+                "D. Excess fluid volume"
+            ],
+            correct: 0, // A
+            rationale: "Chlorine (pulmonary agent) destroys alveolar membrane → impaired gas exchange. (PTS:1 REF:p.2237)"
+        },
+        { //35
+            id: 35,
+            question: "The nursing supervisor at the local hospital reports that your hospital will be receiving multiple trauma victims from a blast that occurred at a local manufacturing plant. The paramedics call in a victim of the blast with injuries including a head injury and hemorrhage. What phase of blast injury should the nurse expect to treat in this client?",
+            options: [
+                "A. Primary phase",
+                "B. Secondary phase",
+                "C. Tertiary phase",
+                "D. Quaternary phase"
+            ],
+            correct: 0, // A
+            rationale: "Primary phase: head injury, hemorrhage, pulmonary contusions. (PTS:1 REF:p.2231)"
+        },
+        { //36
+            id: 36,
+            question: "A nurse has had contact with a client who developed smallpox and became febrile after a terrorist attack. This nurse will require what treatment?",
+            options: [
+                "A. Watchful waiting",
+                "B. Treatment with colony-stimulating factors (CSFs)",
+                "C. Vaccination",
+                "D. Treatment with ceftriaxone"
+            ],
+            correct: 2, // C
+            rationale: "Smallpox contacts need vaccination within 4 days. (PTS:1 REF:p.2234)"
+        },
+        { //37
+            id: 37,
+            question: "The emergency response team is dealing with a radiation leak at the hospital. What action should be performed to prevent the spread of the contaminants?",
+            options: [
+                "A. Floors must be scrubbed with undiluted bleach.",
+                "B. Waste must be promptly incinerated.",
+                "C. The ventilation system should be deactivated.",
+                "D. Air ducts and vents should be sealed."
+            ],
+            correct: 3, // D
+            rationale: "Seal air ducts/vents to prevent spread. (PTS:1 REF:p.2238)"
+        },
+        { //38
+            id: 38,
+            question: "A client has been exposed to a nerve agent in a biochemical terrorist attack. This type of agent bonds with acetylcholinesterase, so that acetylcholine is not inactivated. What is the pathologic effect of this type of agent?",
+            options: [
+                "A. Hyperstimulation of the nerve endings",
+                "B. Temporary deactivation of the nerve endings",
+                "C. Binding of the nerve endings",
+                "D. Destruction of the nerve endings"
+            ],
+            correct: 0, // A
+            rationale: "Nerve agents → continuous acetylcholine → hyperstimulation. (PTS:1 REF:p.2236)"
+        },
+        { //39
+            id: 39,
+            question: "A group of military nurses are reviewing the care of victims of biochemical terrorist attacks. The nurses should identify what agents as having the shortest latency?",
+            options: [
+                "A. Viral agents",
+                "B. Nerve agents",
+                "C. Pulmonary agents",
+                "D. Blood agents"
+            ],
+            correct: 1, // B
+            rationale: "Nerve agents & cyanide have shortest latency (seconds). (PTS:1 REF:p.2235)"
+        },
+        { //40
+            id: 40,
+            question: "A nurse is giving an educational class to members of the local disaster team. What should the nurse instruct members of the disaster team to do in a chemical bioterrorist attack?",
+            options: [
+                "A. Cover their eyes.",
+                "B. Put on a personal protective equipment mask.",
+                "C. Stand up.",
+                "D. Crawl to an exit."
+            ],
+            correct: 2, // C
+            rationale: "Most chemicals heavier than air → stand to avoid heavy exposure. (PTS:1 REF:p.2235)"
+        }
+    ];
+
+    // ----- identical navigation/selection logic as template -----
+    let currentQuestion = 0;
+    let selectedOption = null;
+    let answers = Array(questions.length).fill(null);
+
+    function loadQuestion() {
+        const q = questions[currentQuestion];
+        if (!q) return;
+
+        const progress = ((currentQuestion + 1) / questions.length) * 100;
+        document.getElementById('progressBar').style.width = `${progress}%`;
+        document.getElementById('counter').textContent = `${currentQuestion + 1}/${questions.length}`;
+        document.getElementById('questionNumber').textContent = q.id;
+
+        document.getElementById('question').innerHTML = q.question;
+        loadOptions(q);
+
+        document.getElementById('feedback').style.display = 'none';
+        document.getElementById('rationale').classList.remove('show');
+        document.getElementById('cancelBtn').classList.remove('show');
+
+        document.getElementById('prevBtn').disabled = currentQuestion === 0;
+        const stored = answers[currentQuestion];
+        document.getElementById('nextBtn').disabled = stored === null || stored === undefined;
+        document.getElementById('nextBtn').textContent = currentQuestion >= questions.length - 1 ? 'FINISH ➡️' : 'NEXT ➡️';
+    }
+
+    function loadOptions(q) {
+        const container = document.getElementById('options');
+        container.innerHTML = '';
+        q.options.forEach((opt, idx) => {
+            const div = document.createElement('div');
+            div.className = 'option';
+            div.innerHTML = `<div class="option-letter">${String.fromCharCode(65 + idx)}</div><div>${opt}</div>`;
+            div.onclick = () => selectOption(idx);
+            container.appendChild(div);
+        });
+
+        const saved = answers[currentQuestion];
+        if (saved !== null && saved !== undefined) {
+            selectOption(saved, true);
+        }
+    }
+
+    function selectOption(index, fromMemory = false) {
+        const q = questions[currentQuestion];
+        if (!fromMemory && selectedOption !== null) return;
+
+        if (!fromMemory) {
+            selectedOption = index;
+            answers[currentQuestion] = index;
+        }
+
+        highlightSelected(index, q);
+        showFeedback(index, q);
+        document.getElementById('nextBtn').disabled = false;
+        document.getElementById('cancelBtn').classList.add('show');
+    }
+
+    function highlightSelected(index, q) {
+        const opts = document.querySelectorAll('.option');
+        opts.forEach((opt, i) => opt.classList.remove('correct', 'incorrect'));
+
+        const correctIndices = Array.isArray(q.correct) ? q.correct : [q.correct];
+        if (Array.isArray(q.correct)) {
+            correctIndices.forEach(ci => opts[ci]?.classList.add('correct'));
+            if (!correctIndices.includes(index)) {
+                opts[index]?.classList.add('incorrect');
+            }
+        } else {
+            if (index === q.correct) {
+                opts[index].classList.add('correct');
+            } else {
+                opts[index].classList.add('incorrect');
+                opts[q.correct].classList.add('correct');
+            }
+        }
+    }
+
+    function showFeedback(index, q) {
+        const fb = document.getElementById('feedback');
+        const icon = document.getElementById('feedbackIcon');
+        const text = document.getElementById('feedbackText');
+        const rationaleDiv = document.getElementById('rationale');
+        const rationaleP = document.getElementById('rationaleText');
+
+        const correctIndices = Array.isArray(q.correct) ? q.correct : [q.correct];
+        const isCorrect = correctIndices.includes(index);
+
+        if (isCorrect) {
+            fb.className = 'feedback correct';
+            icon.textContent = '✅';
+            text.textContent = 'CORRECT!';
+        } else {
+            fb.className = 'feedback incorrect';
+            icon.textContent = '❌';
+            const letters = correctIndices.map(c => String.fromCharCode(65 + c)).join(', ');
+            text.textContent = `INCORRECT. Correct answer(s): ${letters}`;
+        }
+
+        fb.style.display = 'flex';
+        rationaleP.innerHTML = q.rationale;
+        rationaleDiv.classList.add('show');
+    }
+
+    function cancelSelection() {
+        const q = questions[currentQuestion];
+        selectedOption = null;
+        answers[currentQuestion] = null;
+        document.querySelectorAll('.option').forEach(opt => opt.classList.remove('correct', 'incorrect'));
+        document.getElementById('feedback').style.display = 'none';
+        document.getElementById('rationale').classList.remove('show');
+        document.getElementById('cancelBtn').classList.remove('show');
+        document.getElementById('nextBtn').disabled = true;
+    }
+
+    function nextCard() {
+        if (currentQuestion < questions.length - 1) {
+            currentQuestion++;
+            selectedOption = null;
+            loadQuestion();
+        } else {
+            currentQuestion = 0;
+            loadQuestion();
+        }
+    }
+
+    function previousCard() {
+        if (currentQuestion > 0) {
+            currentQuestion--;
+            const q = questions[currentQuestion];
+            selectedOption = answers[currentQuestion];
+            loadQuestion();
+        }
+    }
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key >= '1' && e.key <= '4') selectOption(parseInt(e.key)-1);
+        else if (e.key >= 'a' && e.key <= 'd') selectOption(e.key.charCodeAt(0)-97);
+        else if (e.key >= 'A' && e.key <= 'D') selectOption(e.key.charCodeAt(0)-65);
+        else if (e.key === 'ArrowLeft' && !document.getElementById('prevBtn').disabled) previousCard();
+        else if (e.key === 'ArrowRight' && !document.getElementById('nextBtn').disabled) nextCard();
+        else if (e.key === 'Escape' && document.getElementById('cancelBtn').classList.contains('show')) cancelSelection();
+    });
+
+    loadQuestion();
+</script>
+</body>
+</html>
